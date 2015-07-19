@@ -12,14 +12,14 @@
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/stat.h>
-#include <Opencl/cl.h>
 #include <stdbool.h>
 #include "cl-helper.h"
 
-// local size of work group
-#define WGX 16
-#define WGY 16
-#define AR 10000
+#ifdef __APPLE__
+#include <OpenCL/opencl.h>
+#else
+#include <CL/cl.h>
+#endif
 
 void spri(float* a, float* b, int size){
   int i;
@@ -72,7 +72,10 @@ void print_kernel_info(cl_command_queue queue, cl_kernel knl)
 int main(int argc, char *argv[])
 {
    // size of array
-   int n = AR;
+   if(argc != 2){
+    printf("You need exactly two arguments!\n exit!");
+   }
+   int n = atoi(argv[1]);
    unsigned int size = n;
    unsigned int mem_size = sizeof(float) * size;
    float* arr = (float *) malloc(mem_size);

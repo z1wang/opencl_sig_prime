@@ -1,7 +1,7 @@
 EXECUTABLES = sig
-CC=gcc49
+#CC=gcc49
 
-all: $(EXECUTABLES)
+all: ${EXECUTABLES}
 
 LDFLAGS += $(foreach librarydir,$(subst :, ,$(LD_LIBRARY_PATH)),-L$(librarydir))
 
@@ -23,10 +23,11 @@ ifdef OPENCL_LIB
   LDFLAGS = -L$(OPENCL_LIB)
 endif
 
-convolution.o: sigpr.c cl-helper.h
+sigpr.o: sigpr.c cl-helper.h
 cl-helper.o: cl-helper.c cl-helper.h
 
-convolution: convolution.o cl-helper.o
+sig: sigpr.o cl-helper.o
+	gcc -o ${EXECUTABLES} sigpr.o cl-helper.o ${LDFLAGS} ${CFLAGS}
 
 clean:
 	rm -f $(EXECUTABLES) *.o
