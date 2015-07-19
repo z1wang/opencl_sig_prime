@@ -152,12 +152,15 @@ int main(int argc, char *argv[])
       zsum += temp; 
     }
     printf("total difference between results from GPU and CPU is %.15f\n", zsum);
-   
+
 
   CALL_CL_SAFE(clReleaseMemObject(d_res));
   CALL_CL_SAFE(clReleaseMemObject(d_arr));
   CALL_CL_SAFE(clReleaseKernel(knl));
   CALL_CL_SAFE(clReleaseCommandQueue(queue));
   CALL_CL_SAFE(clReleaseContext(ctx));
+  free(arr);
+  free(res);
+  free(res2);
 }
 //gcc -o NN n_host.c cl-helper.c helper.c -framework OpenCL -lm
