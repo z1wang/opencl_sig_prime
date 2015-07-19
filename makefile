@@ -1,5 +1,5 @@
 EXECUTABLES = sig
-#CC=gcc49
+CC=gcc
 
 all: ${EXECUTABLES}
 
